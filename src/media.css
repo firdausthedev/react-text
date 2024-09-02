@@ -1,0 +1,38 @@
+@media (max-width: 550px) {
+  .button {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  body {
+    padding: 10px;
+  }
+
+  #header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #header div h1 {
+    font-size: 1.5rem;
+  }
+
+  #header div p {
+    font-size: 0.8rem;
+    max-width: auto;
+  }
+
+  #text label {
+    font-size: 0.8rem;
+  }
+
+  #result h2 {
+    color: white;
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+
+  #result div p {
+    font-size: 0.8rem;
+  }
+}
