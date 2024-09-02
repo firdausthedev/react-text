@@ -1,23 +1,76 @@
+import { useState } from "react";
 import "./App.css";
 import "./media.css";
-import Header from "./components/Header";
-import Result from "./components/Result";
+
+import {
+  characterCount,
+  characterCountNoSpace,
+  longestWord,
+  mostFrequentWord,
+  normalizeText,
+  paragraphCount,
+  sentenceCount,
+  wordCount,
+} from "./components/utils/helpers";
 import TextInput from "./components/TextInput";
+import Result from "./components/Result";
+import Header from "./components/Header";
 
 function App() {
+  const [text, setText] = useState("");
+  const [wordNum, setWordNum] = useState(0);
+  const [charNum, setCharNum] = useState(0);
+  const [charNumNoSpace, setCharNumNoSpace] = useState(0);
+  const [sentenceNum, setSentenceNum] = useState(0);
+  const [paragraphNum, setParagraphNum] = useState(0);
+  const [mostFreqWord, setMostFreqWord] = useState([""]);
+  const [longestWordArr, setLongestWordArr] = useState([""]);
+  const [isResultVisible, setIsResultVisible] = useState(false);
+  const [isEmptyInput, setIsEmptyInput] = useState(false);
+
+  const handleTextChange = newText => {
+    setText(newText);
+  };
+
+  const onAnalyzeClick = () => {
+    if (text.length > 0) {
+      const normalizedText = normalizeText(text);
+      setWordNum(wordCount(normalizedText));
+      setCharNum(characterCount(normalizedText));
+      setCharNumNoSpace(characterCountNoSpace(normalizedText));
+      setSentenceNum(sentenceCount(text));
+      setParagraphNum(paragraphCount(text));
+      setMostFreqWord(mostFrequentWord(normalizedText));
+      setLongestWordArr(longestWord(normalizedText));
+      setIsResultVisible(true);
+      setIsEmptyInput(false);
+    } else {
+      setIsEmptyInput(true);
+      setIsResultVisible(false);
+    }
+  };
+
   return (
     <main className="container">
       <Header />
-      <TextInput />
-      <Result
-        wordNum={0}
-        charNum={0}
-        charNumNoSpace={0}
-        sentenceNum={0}
-        paragraphNum={0}
-        mostFreqWord={["React"]}
-        longestWordArr={["React"]}
+      <TextInput
+        onAnalyzeClick={onAnalyzeClick}
+        text={text}
+        handleTextChange={handleTextChange}
+        isEmptyInput={isEmptyInput}
       />
+
+      {isResultVisible && (
+        <Result
+          wordNum={wordNum}
+          charNum={charNum}
+          charNumNoSpace={charNumNoSpace}
+          sentenceNum={sentenceNum}
+          paragraphNum={paragraphNum}
+          mostFreqWord={mostFreqWord}
+          longestWordArr={longestWordArr}
+        />
+      )}
     </main>
   );
 }
