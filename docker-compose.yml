@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    # Uncomment the following line if you want to run in development mode
+    # command: ["npm", "start"]
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
