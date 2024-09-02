@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import "./media.css";
+import Sentiment from "sentiment";
 
 import {
   characterCount,
@@ -12,9 +13,9 @@ import {
   sentenceCount,
   wordCount,
 } from "./components/utils/helpers";
-import TextInput from "./components/TextInput";
 import Result from "./components/Result";
 import Header from "./components/Header";
+import TextInput from "./components/TextInput";
 
 function App() {
   const [text, setText] = useState("");
@@ -25,6 +26,7 @@ function App() {
   const [paragraphNum, setParagraphNum] = useState(0);
   const [mostFreqWord, setMostFreqWord] = useState([""]);
   const [longestWordArr, setLongestWordArr] = useState([""]);
+  const [sentimentResult, setSentimentResult] = useState("");
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [isEmptyInput, setIsEmptyInput] = useState(false);
 
@@ -44,6 +46,11 @@ function App() {
       setLongestWordArr(longestWord(normalizedText));
       setIsResultVisible(true);
       setIsEmptyInput(false);
+
+      const newSentiment = new Sentiment();
+      const analysis = newSentiment.analyze(text);
+
+      setSentimentResult(analysis);
     } else {
       setIsEmptyInput(true);
       setIsResultVisible(false);
@@ -69,6 +76,7 @@ function App() {
           paragraphNum={paragraphNum}
           mostFreqWord={mostFreqWord}
           longestWordArr={longestWordArr}
+          sentimentResult={sentimentResult}
         />
       )}
     </main>
